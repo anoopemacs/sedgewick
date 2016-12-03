@@ -39,6 +39,13 @@ Node* insert_after(int v, Node* t) {
     return x;
 }
 
+void move_next_to_front(Node* t) {
+    Node* y = t->next;
+    t->next = t->next->next;
+    y->next = head->next;
+    h->next = y;
+}
+
 int main() {
     list_initialize();
     Node* t = insert_after(1, head);
