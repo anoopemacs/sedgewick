@@ -1,11 +1,10 @@
-*conventions:
-
-* p = parent
-* g = grandparent
-* gg = greatgrandparent
-* c = child
-* x = current node
-* y = temporary node
-* h = head
-* t = tail
-* z = last
+* conventions:
+p = parent
+g = grandparent
+gg = greatgrandparent
+c = child
+x = current node
+y = temporary node
+h = head
+t = tail
+z = last
