@@ -9,3 +9,5 @@ h = head
 t = tail
 z = last
 r = running node for looping etc
+
+* removal of recursion - fast done, ch5
