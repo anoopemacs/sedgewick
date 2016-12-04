@@ -8,3 +8,4 @@ y = temporary node
 h = head
 t = tail
 z = last
+r = running node for looping etc
