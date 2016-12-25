@@ -1,4 +1,4 @@
-//circular linked list no need for h & z
+// circular linked list no need for h & z
 #include <stdio.h>
 #include <stdlib.h>
 

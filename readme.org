@@ -11,3 +11,9 @@ z = last
 r = running node for looping etc
 
 * removal of recursion - fast done, ch5
+* other possible books
+port code to c++ 3rd edition
+cp3 - halim
+adm - skiena
+cp - skiena
+inductive - manber

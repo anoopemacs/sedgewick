@@ -1,4 +1,4 @@
-//euclid's algorithm for gcd
+// euclid's algorithm for gcd
 #include <stdio.h>
 
 int gcd (int u, int v) {

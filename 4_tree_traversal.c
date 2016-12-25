@@ -1,5 +1,5 @@
-//traversal w/o using recursion
-//file contains 2 stacks, 1 queue, Node type, Snode type, Qnode type structs
+// traversal w/o using recursion
+// file contains 2 stacks, 1 queue, Node type, Snode type, Qnode type structs
 
 #include <stdio.h>
 #include <stdlib.h>

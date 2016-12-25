@@ -1,81 +1,112 @@
+// 5*[{(9+8) * (4*6)}+7] = 2075
+// (* 5 (+ (* (+ 9 8) (* 4 6)) 7))
+// input is in post order notation
+
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node {
-    char info;
-    struct node* l;
-    struct node* r;
+struct tree_node {
+    struct tree_node* l;
+    struct tree_node* r;
+    char key;
 };
-typedef struct node Node;
-Node* x;
-Node* z;
+typedef struct tree_node Tnode;
+// h_tree is not necessary
+Tnode* z_tree;
+Tnode* t_tree;
 
-void tree_printer(Node* root) {
-    Node* r = root;    
-    printf("%c ", r->info);
-    
-    if (root->l != z) tree_printer(r->l);
-    if (root->r != z) tree_printer(r->r);    
+void tree_initialize() {
+    z_tree = (Tnode*) malloc(sizeof *z_tree);
+    z_tree->l = z_tree;    
+    z_tree->r = z_tree;    
 }
 
-//stack from ch3 modified to store pointers
-//stack is used to temporarily store scanf input
+void tree_printer2(Tnode* root) {
+    Tnode* t = root;
+    
+    if (t != z_tree){
+        printf("%c ", t->key);
+        tree_printer2(t->l);
+        tree_printer2(t->r);
+    } else {
+        printf(". ");
+    }
+    return;
+}
+
+
+void tree_printer(Tnode* root) {
+    Tnode* t_tree = root;    
+    printf("%c ", t_tree->key);
+    
+    if (root->l != z_tree) tree_printer(t_tree->l);
+    if (root->r != z_tree) tree_printer(t_tree->r);
+    
+}
+
 struct stack_node {
-    Node* key;
+    Tnode* info;
     struct stack_node* next;
 };
 typedef struct stack_node Snode;
-static Snode *head, *z2, *t;
+Snode* h_stack;
+Snode* z_stack;
+Snode* t_stack;
 
-void stack_printer(Snode* head) {
-    Snode* run = head->next;//skip head dummy key
-    while (run->next != run) {
-        printf("%c ", run->key->info);
-        run = run->next;
+void stack_initialize() {
+    h_stack = (Snode*) malloc(sizeof *h_stack);    
+    z_stack = (Snode*) malloc(sizeof *z_stack);    
+    h_stack->next = z_stack;
+    z_stack->next = z_stack;
+}
+
+void stack_printer(Snode* h) {
+    Snode* r = h->next;
+    while (r != z_stack) {
+        printf("%c ", r->info->key);
+        r = r->next;
     }
     printf("\n");
 }
 
-void stack_init() {
-    head = (Snode*) malloc(sizeof *head);
-    z2 = (Snode*) malloc(sizeof *z2);
-    head->next = z2; head->key = 0;
-    z2->next = z2;
+void push(Tnode* info) {
+    t_stack = (Snode*) malloc(sizeof *t_stack);
+    t_stack->info = info;
+    t_stack->next = h_stack->next;
+    h_stack->next = t_stack;
 }
 
-void push(Node* v) {
-    t = (Snode*) malloc(sizeof *t);
-    t->key = v;
-    t->next = head->next;
-    head->next = t;
+Tnode* pop() {
+    Tnode* ret;
+    t_stack = h_stack->next;
+    ret = t_stack->info;
+    h_stack->next = t_stack->next;
+    free(t_stack);
+    return ret;
 }
-
-Node* pop() {
-    Node* x;
-    t = head->next;
-    head->next = t->next;
-    x = t->key;
-    free(t);
-    return x;
-}
-
 
 int main() {
-    z = (Node*) malloc(sizeof *z);
-    z->r = z;
-    z->l = z;
-
+    stack_initialize();
+    tree_initialize();
+    
     char c;
-    for (stack_init(); scanf("%1s", &c) != EOF; ) {
-        x = (Node*) malloc(sizeof *x);
-        x->info = c; x->l = z; x->r = z;
-        if (c == '+' || c == '*') {
-            x->r = pop(); x->l = pop();
+    for (; scanf("%1s", &c) != EOF; ) {
+        t_tree = (Tnode*) malloc(sizeof *t_tree);
+        t_tree->key = c;
+        t_tree->r = z_tree;
+        t_tree->l = z_tree;
+        if (c == '*' || c == '+') {
+            t_tree->r = pop();
+            t_tree->l = pop();
         }
-        push(x);
-        stack_printer(head);
+        push(t_tree);
     }
-    printf("___________________________________________\n");
-    tree_printer(pop()); printf("\n");
+    printf("\n");    
+    stack_printer(h_stack);
+    printf("----------------------------------above is stack-----------------------------------------------------------------\n");
+    Tnode* root = pop();
+    tree_printer(root);
+    printf("\n---------------------------------second tree printer:-----------------------------------------------------------------\n");
+    tree_printer2(root);
     return 0;
 }
