@@ -17,3 +17,4 @@ cp3 - halim
 adm - skiena
 cp - skiena
 inductive - manber
+* ch8 exercises fast done
