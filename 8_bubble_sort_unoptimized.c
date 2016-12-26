@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <limits.h>
-
 void printer(char* p, int size) {
     for (int i=0; i!=size; ++i) {
         printf("%c ", *(p+i));
@@ -8,15 +6,16 @@ void printer(char* p, int size) {
     printf("\n");
 }
 
-char* insertion_sort(char a[], int size) {
+char* bubble_sort(char a[], int size) {
     char* ret = a;
-    for (int i=1; i!=size; ++i) {
-        char key = a[i];
-        int j;
-        for (j=i-1; a[j]>key && j>-1; --j) {
-            a[j+1] = a[j];
+    for (int j=0; j!=size-1; ++j) {
+        for (int i=0; i!=size-1; ++i) {
+            if (a[i] > a[i+1]) {
+                char temp = a[i+1];
+                a[i+1] = a[i];
+                a[i] = temp;
+            }
         }
-        a[j+1] = key;
     }
     return ret;
 }
@@ -24,7 +23,7 @@ char* insertion_sort(char a[], int size) {
 int main() {
     char in[] = {'A', 'S', 'O', 'R', 'T', 'I', 'N', 'G', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
     int size = sizeof(in) / sizeof(in[0]);
-    char* ret = insertion_sort(in, size);
+    printer(in, size);
+    char* ret = bubble_sort(in, size);
     printer(ret, size);
-    return 0;
 }

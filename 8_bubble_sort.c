@@ -1,3 +1,5 @@
+// notice the similarity to selection sort
+// bubble sort can be calssified as a inefficient selection sort
 #include <stdio.h>
 void printer(char* p, int size) {
     for (int i=0; i!=size; ++i) {

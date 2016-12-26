@@ -14,17 +14,21 @@ void printer(char* p, int size) {
 
 char* shell_sort(char a[], int N) {
     char* ret = a;
-    int h;
-    for (h=1; (3*h+1) < N; h=3*h+1){}
-    for (;h>0;h/=3){
-        for (int i=h; i!=N; ++i) {
-            char key = a[i];
-            int j;
-            for (j=i-h; j>=0 && a[j]>key; j-=h) {
-                a[j+h] = a[j];
+    int i, j, h, v;
+    for (h=1; h<=N/9;h=3*h+1){}
+    //printf("%d\n", h);
+    
+    for (; h>0; h/=3) {
+        for (i = h+1; i!=N; ++i) {
+            printf("anoop%d\n", i);
+            v = a[i]; j =i ;
+            while (j>h && a[j-h]>v) {
+                a[j] = a[j-h];
+                j -= h;
+                a[j] = v;
             }
-            a[j+h] = key;
         }
+        printer(a, N);        
     }
     return ret;
 }
@@ -36,8 +40,7 @@ int main() {
     
     printf("\n__________________________________input ends______________________________________________________\n");
     char* ret = shell_sort(in, size);
-    printf("\n__________________________________out begins______________________________________________________\n");
-    printer(ret, size);
+    //printer(ret, size);
     return 0;
 }
 
