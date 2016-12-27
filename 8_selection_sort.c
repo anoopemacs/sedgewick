@@ -27,4 +27,5 @@ int main() {
     char in[] = {'A', 'S', 'O', 'R', 'T', 'I', 'N', 'G', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
     int size = sizeof(in) / sizeof(in[0]);
     selection_sort(in, size);
+    return 0;
 }

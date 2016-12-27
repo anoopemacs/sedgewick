@@ -18,3 +18,4 @@ adm - skiena
 cp - skiena
 inductive - manber
 * ch8 exercises fast done
+* have skipped all exercises starting ch8
