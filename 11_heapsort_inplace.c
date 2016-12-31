@@ -1,3 +1,4 @@
+// this is incomplete, skipped for now
 // it is possible to implement this with input[] same as a[] i.e inplace - skip for now
 
 // for heap 1 based index is better
@@ -28,7 +29,7 @@ void downheap(int k) {
     int v = a[k];
     while (k <= N/2) {
         int j = 2*k;    
-	if (j+1<=N && a[j]<a[j+1]) ++j;
+        if (j+1<=N && a[j]<a[j+1]) ++j;
         // now j points to larger of the 2 children
         if (a[j] <= v) break;
         a[k] = a[j];
@@ -50,22 +51,21 @@ void construct(int input[], int input_size) {
     N = 0;
     a[N] = INT_MAX;
     for(int i=0; i!=input_size; ++i) {
-	insert(input[i]);
+        insert(input[i]);
     }
 }
 
 int main() {
-    int input[] = {'X', 'T', 'O', 'G', 'S', 'M', 'N', 'A', 'E', 'R', 'A', 'I'};
-    //int input[] = {'A', 'A', 'E', 'G', 'I', 'M', 'N', 'O', 'R', 'S', 'T', 'X'};
-    int input_size = sizeof(input)/sizeof(input[0]);
-    for(int i=0; i!=input_size; ++i) printf("%c ", input[i]);
+    int a[] = {INT_MAX, 'A', 'S', 'O', 'R', 'T', 'I', 'N', 'G', 'E', 'X', 'A', 'M', 'P', 'L', 'E' };
+    int N = sizeof(a)/sizeof(a[0]) - 1;
     
+    for(int i=1; i<=N; ++i) printf("%c ", input[i]);
     printf("\n");
     
     //expected ans: A A E G I M N O R S T X
-    construct(input, input_size);
+    construct(a, input_size);
     for(int i=input_size-1; i>=0; --i) {
-	input[i] = remove0();
+        input[i] = remove0();
     }
     
     //output:

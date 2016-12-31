@@ -43,7 +43,7 @@ void move_next_to_front(Node* t) {
     Node* y = t->next;
     t->next = t->next->next;
     y->next = head->next;
-    h->next = y;
+    head->next = y;
 }
 
 int main() {
