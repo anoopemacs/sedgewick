@@ -1,5 +1,5 @@
 // note 'unsigned' is a synonym for 'unsigned int' in C lang
-// this is not in 0 based index - todo conversion
+// this file has a bug, skip for now, doubt: how to select w & m values for this algo, textbook doesnt specify that
 /*
   A          01000001 
   B          01000010 
@@ -27,7 +27,7 @@
   X          01011000 
   Y          01011001 
   Z          01011010 
- */
+*/
 // since first 3 digits are same, author ignores them in diagram
 /*
   A      00001 
@@ -59,9 +59,10 @@
 */
 
 #include <stdio.h>
+#include <math.h>
 
 void printer(int* p, int size) {
-    ++p;
+    
     for (int i=0; i!=size; ++i) {
         printf("%3c", *(p+i));
     }
@@ -80,33 +81,56 @@ unsigned bits(unsigned x, int k, int j) {
     return (x>>k) & ~(~0<<j);
 }
 
-void radix_exchange_sort(unsigned a[], int l, int r, int b) {
-    // l = left, r = right - of array [l, r]
-    // b = right zero indexed begin of each element of a
+unsigned getMax(unsigned a[], int N) {
+    unsigned ret = a[0];
+    for (int i=0; i!=N; ++i) {
+	if (a[i]>ret) ret = a[i];
+    }
+    return ret;
+}
+
+// generalization of distribution_countint_sort:
+void straight_radix_sort(int a[], int b[], int N) {
     
-    if (r>l && b>=0) {
-	int i=l;
-	int j=r;
-	while (j!=i) {
-	    while(bits(a[i], b, 1)==0 && i<j) ++i;
-	    while(bits(a[j], b, 1)==1 && j>i) --j;
-	    unsigned t = a[i];
-	    a[i] = a[j];
-	    a[j] = t;
-	}
-	if (bits(a[r], b, 1)==0) ++j;
-	radix_exchange_sort(a, l, j-1, b-1);
-	radix_exchange_sort(a, j, r, b-1);
+    int m = 5; // say 5 bits at a time
+    int M = pow(2, 5);
+    int w = log2(getMax(a, N)) + 1;
+    
+    
+    for (int pass=0; pass<=m/w + 1; ++pass) {
+
+        int count[M];
+        for (int i=0; i!=M; ++i) count[i] = 0;
+	
+        for (int i=0; i!=N; ++i) {
+            count[bits(a[i], m*pass, m)]++; 
+        }
+        //cumulative:
+        for (int i=1; i!=M; ++i) {
+            count[i] = count[i-1] + count[i];
+        }
+    
+        for (int i=N-1; i!=0; --i) {
+            int x = count[bits(a[i], m*pass, m)];
+	    b[x-1] = a[i];
+            count[bits(a[i], m*pass, m)]--;
+        }
+	
     }
 }
 
 int main() {
-    unsigned a[] = {'h', 'A', 'S', 'O', 'R', 'T', 'I', 'N', 'G', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
-    int N = sizeof(a) / sizeof(a[0]) - 1;
+    
+    unsigned a[] = {'A', 'S', 'O', 'R', 'T', 'I', 'N', 'G', 'E', 'X', 'A', 'M', 'P', 'L', 'E'};
+    int N = sizeof(a) / sizeof(a[0]);
     printer(a, N);
-    //radix_exchange_sort(a, 1, N, 30);
-    radix_exchange_sort(a, 1, N, 4);
-    printer(a, N);
+    //input ends
+
+    unsigned b[N]; // to collect output
+    straight_radix_sort(a, b, N);
+    
+    printer(b, N);
+    
     return 0;
 }
 

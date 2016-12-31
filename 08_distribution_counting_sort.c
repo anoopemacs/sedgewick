@@ -14,55 +14,42 @@ int special_case() {
     return 0;
 }
 
-int ci(char c) {
-    // char to int conversion custom
-    return (int) (c - 'A');
-}
-
-char ic(int i) {
-    // int to char custom
-    return (char) ((int) 'A' + i);
-}
-
-char* distribution_counting_sort(char a[], int N, char M) {
-    char* ret=a;
-    printf("N=%d M=%c, ci(M)=%d\n", N, M, ci(M));
+void distribution_counting_sort(int a[], int N, int M, int b[]) {
+    // for any i, a[i] < M
+    
     int count[M];
-    for (int i=0; i!=ci(M); ++i) count[i] = 0;
+    for (int i=0; i!=M; ++i) count[i] = 0;
     for (int i=0; i!=N; ++i) {
-        int ai = ci(a[i]);
-        count[ai]++; 
+        count[a[i]]++; 
     }
     //cumulative:
-    for (int i=1; i!=ci(M); ++i) {
+    for (int i=1; i!=M; ++i) {
         count[i] = count[i-1] + count[i];
     }
     
-    char b[N];
-    ret = b;
-    for (int i=0; i!=N; ++i) {
-        int ai = ci(a[i]);
-        int x = count[ai];
+    // start from end to get stable sort behaviour
+    for (int i=N-1; i!=-1; --i) {
+        int x = count[a[i]];
         b[x-1] = a[i];
-        count[ai]--;
+        count[a[i]]--;
     }
     
-    return ret;
 }
 
 int main() {
-    //special_case();
-    char in[] = {'A', 'B', 'B', 'A', 'C', 'A', 'D', 'A', 'B', 'B', 'A', 'D', 'D', 'A' };
-    int N = sizeof(in)/sizeof(in[0]);    
-    for (int i=0; i!=N; ++i) printf("%c ", in[i]);
+    // special_case();
+    int a[] = {'A', 'B', 'B', 'A', 'C', 'A', 'D', 'A', 'B', 'B', 'A', 'D', 'D', 'A' };
+    int N = sizeof(a)/sizeof(a[0]);    
+    for (int i=0; i!=N; ++i) printf("%c ", a[i]);
     printf("\n");
-    //input ends
+    // input ends
     
-    char M = 'E';
-    int m = ci(M);
+    int b[N]; // output will be collected here
+    distribution_counting_sort(a, N, 'E', b);
     
-    char* ans = distribution_counting_sort(in, N, M);
-    
-    for (int i=0; i!=N; ++i) printf("%c ", *(ans+i));
+    for (int i=0; i!=N; ++i) printf("%c ", *(b+i));
+    printf("\n");
     return 0;
 }
+
+

@@ -19,3 +19,4 @@ cp - skiena
 inductive - manber
 * ch8 exercises fast done
 * have skipped all exercises starting ch8
+* todo: translate to c++, convert all to 0 based index
